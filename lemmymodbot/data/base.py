@@ -32,6 +32,8 @@ class Community(Base):
     __tablename__ = 'community'
 
     community_id = mapped_column(INTEGER, primary_key=True)
+
+    community_name = Column(VARCHAR(30), nullable=False)
     post_page = Column(INTEGER)
     comment_page = Column(INTEGER)
 
