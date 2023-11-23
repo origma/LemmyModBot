@@ -1,13 +1,13 @@
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from lemmymodbot.data.base import CurrentPage, session_scope
+from lemmymodbot.data.base import Community, session_scope
 
 
 class MonitorPersistence:
 
-    def _get_page_entry(self, community_name: str, session: Session) -> CurrentPage:
-        return (session.execute(select(CurrentPage).filter(CurrentPage.community_name == community_name))
+    def _get_page_entry(self, community_name: str, session: Session) -> Community:
+        return (session.execute(select(Community).filter(Community.community_name == community_name))
                 .scalar_one_or_none())
 
     def get_current_page(self, community_name: str) -> int:
@@ -30,7 +30,7 @@ class PostMonitorPersistence(MonitorPersistence):
         with session_scope() as session:
             current = self._get_page_entry(community_name, session)
             if current is None:
-                session.add(CurrentPage(
+                session.add(Community(
                     community_name=community_name,
                     post_page=page_number,
                     comment_page=1
@@ -52,7 +52,7 @@ class CommentMonitorPersistence(MonitorPersistence):
         with session_scope() as session:
             current = self._get_page_entry(community_name, session)
             if current is None:
-                session.add(CurrentPage(
+                session.add(Community(
                     community_name=community_name,
                     post_page=1,
                     comment_page=page_number

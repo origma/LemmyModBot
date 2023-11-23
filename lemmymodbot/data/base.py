@@ -27,14 +27,6 @@ def session_scope() -> Session:
         session.close()
 
 
-class CurrentPage(Base):
-    __tablename__ = 'current_page'
-
-    community_name = Column(VARCHAR(30), primary_key=True)
-    post_page = Column(INTEGER)
-    comment_page = Column(INTEGER)
-
-
 class Community(Base):
 
     __tablename__ = 'community'
