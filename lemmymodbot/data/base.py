@@ -157,11 +157,3 @@ class PostPhashHistory(Base):
     url = Column(TEXT)
     phash = Column(VARCHAR(16))
 
-
-class PhashHistory(Base):
-    __tablename__ = 'phash_history'
-
-    phash_history_id = mapped_column(INTEGER, primary_key=True)
-
-    community_id = Column(INTEGER)
-    phash = Column(VARCHAR(16))
