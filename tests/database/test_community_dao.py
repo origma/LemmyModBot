@@ -8,7 +8,7 @@ from lemmymodbot.data.base import Base, session_scope, Community
 from lemmymodbot.data.dao.community_dao import CommunityDao
 
 
-class TestPhashDao(unittest.TestCase):
+class TestCommunityDao(unittest.TestCase):
 
     def setUp(self):
         self.engine = create_engine('sqlite:///:memory:')
