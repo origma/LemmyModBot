@@ -1,10 +1,9 @@
 import enum
 from contextlib import contextmanager
 
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, create_engine, Engine, ForeignKey, Enum
 from sqlalchemy.dialects.mysql import INTEGER, TEXT, VARCHAR, TIMESTAMP, BOOLEAN
-from sqlalchemy.orm import sessionmaker, Session, mapped_column
+from sqlalchemy.orm import sessionmaker, Session, mapped_column, declarative_base
 
 Base = declarative_base()
 metadata = Base.metadata
@@ -150,10 +149,9 @@ class ContentMetadata(Base):
 class PostPhashHistory(Base):
     __tablename__ = 'post_phash_history'
 
-    post_id = Column(INTEGER, primary_key=True)
-    phash_history_id = mapped_column(ForeignKey("phash_history.phash_history_id"))
+    post_id = Column(INTEGER, primary_key=True, autoincrement=True)
 
-    community_id = Column(INTEGER, primary_key=True)
+    community_id = Column(INTEGER)
     url = Column(TEXT)
     phash = Column(VARCHAR(16))
 
