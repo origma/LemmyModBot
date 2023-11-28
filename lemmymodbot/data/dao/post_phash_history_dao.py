@@ -5,13 +5,13 @@ from lemmymodbot.data.models.phash_models import PostInfo
 
 class PostPhashHistoryDao:
     def get_posts_by_phash(self, phash: str) -> [PostInfo]:
-        with session_scope() as session:
+        with session_scope(False) as session:
             query_results = session.query(PostPhashHistory).filter_by(phash=phash)
 
             return [PostInfo(q.post_id, q.phash) for q in query_results]
 
     def is_duplicate_image(self, phash: str, community_id: int) -> bool:
-        with session_scope() as session:
+        with session_scope(False) as session:
 
             return bool(
                 session.query(PostPhashHistory).filter_by(phash=phash).filter_by(community_id=community_id).first())

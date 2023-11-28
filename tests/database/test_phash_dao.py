@@ -51,7 +51,6 @@ class TestPhashDao(unittest.TestCase):
         result = self.dao.get_posts_by_phash('c0803f7fffff0404')
         expected = [PostInfo(post_id=1, phash='c0803f7fffff0404'), PostInfo(post_id=2, phash='c0803f7fffff0404'),
                     PostInfo(post_id=3, phash='c0803f7fffff0404')]
-
         self.assertListEqual(result, expected)
 
     def test_is_duplicate_image(self):

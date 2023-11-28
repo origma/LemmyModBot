@@ -1,18 +1,22 @@
-from sqlalchemy import func
-from sqlalchemy.orm import Session
-
-from lemmymodbot.data.base import Community, UserCommunityStatistics
+from lemmymodbot.data.base import Community
+from lemmymodbot.data.dao.community_dao import CommunityDao
+from lemmymodbot.data.dao.user_community_statistics_dao import UserCommunityStatisticsDao
 
 
 class CommunityPersistence:
 
-    def get_community_page_by_name(self, community_name: str, session: Session) -> Community:
-        return session.query(Community.query.filter(Community.community_name == community_name)).one()
+    community_dao: CommunityDao
+    user_community_statistics_dao = UserCommunityStatisticsDao
 
-    def get_community_page_by_id(self, community_id: int, session: Session) -> Community:
-        return session.query(Community.query.filter(Community.community_id == community_id)).one_or_none()
+    def __init__(self, community_dao=CommunityDao(), user_community_statistics_dao=UserCommunityStatisticsDao()):
+        self.community_dao = community_dao
+        self.user_community_statistics_dao = user_community_statistics_dao
 
-    def get_community_statistics(self, community_id: int, session: Session):
+    def get_community_page_by_name(self, community_name: str) -> Community:
+        return self.community_dao.get_community_page_by_name(community_name)
 
-        query_result = session.query(UserCommunityStatistics.query.filter(UserCommunityStatistics.community_id == community_id))
-        return session.query(query_result, func.count(UserCommunityStatistics.community_id)).group_by(UserCommunityStatistics.community_id).all()
+    def get_community_page_by_id(self, community_id: int) -> Community:
+        return self.community_dao.get_community_page_by_id(community_id)
+
+    def get_community_statistics(self, community_id: int):
+        return self.user_community_statistics_dao.get_community_statistics(community_id)

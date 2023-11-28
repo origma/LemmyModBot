@@ -13,12 +13,13 @@ session_maker = sessionmaker(bind=engine)
 
 
 @contextmanager
-def session_scope() -> Session:
+def session_scope(commit: bool = True) -> Session:
     """Provide a transactional scope around a series of operations."""
     session = session_maker()
     try:
         yield session
-        session.commit()
+        if commit:
+            session.commit()
     except:
         session.rollback()
         raise
